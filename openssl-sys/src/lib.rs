@@ -92,6 +92,14 @@ pub struct X509V3_CTX {
     // Maybe more here
 }
 
+#[repr(C)]
+#[derive(Debug)]
+pub struct SRP_gN {
+    pub id: *const c_char,
+    pub g: *const BIGNUM,
+    pub N: *const BIGNUM
+}
+
 #[cfg(target_pointer_width = "64")]
 pub type BN_ULONG = libc::c_ulonglong;
 #[cfg(target_pointer_width = "32")]
@@ -1870,4 +1878,18 @@ extern {
     pub fn HMAC_Final(ctx: *mut HMAC_CTX,
                       md: *mut c_uchar,
                       len: *mut c_uint) -> c_int;
+
+    pub fn SRP_create_verifier(user: *const c_uchar,
+                               pass: *const c_uchar,
+                               salt: *mut *const c_uchar,
+                               verifier: *mut *const c_uchar,
+                               N: *const c_uchar,
+                               g: *const c_uchar) -> *const c_uchar;
+    pub fn SRP_create_verifier_BN(user: *const c_char,
+                                  pass: *const c_char,
+                                  salt: *mut BIGNUM,
+                                  verifier: *mut BIGNUM,
+                                  N: *const BIGNUM,
+                                  g: *const BIGNUM) -> u8;
+    pub fn SRP_get_default_gN(id: *const c_char) -> *const SRP_gN;
 }

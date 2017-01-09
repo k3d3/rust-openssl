@@ -43,6 +43,7 @@ pub mod types;
 pub mod rsa;
 pub mod sign;
 pub mod ssl;
+pub mod srp;
 pub mod symm;
 pub mod version;
 pub mod x509;
